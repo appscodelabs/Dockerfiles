@@ -3,7 +3,7 @@ FROM appscode/base:8.7
 # Installs runit and https://github.com/tianon/gosu
 # ref: https://github.com/docker-library/postgres/blob/master/9.5/Dockerfile
 # grab gosu for easy step-down from root
-ENV GOSU_VERSION 1.7
+ENV GOSU_VERSION 1.10
 RUN set -x \
   && apt-get update \
   && apt-get install -y --no-install-recommends ca-certificates wget \
