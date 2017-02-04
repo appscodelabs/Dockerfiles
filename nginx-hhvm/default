@@ -1,0 +1,29 @@
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+    index index.php;
+
+    server_name localhost;
+    include /etc/nginx/hhvm.conf;
+    charset utf-8;
+
+    access_log /var/log/nginx/localhost.laravel-access.log;
+    error_log  /var/log/nginx/localhost.laravel-error.log;
+
+    location / {
+        # First attempt to serve request as file, then
+        # as directory, then fall back to index.php.
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+    location = /favicon.ico { log_not_found off; access_log off; }
+    location = /robots.txt  { log_not_found off; access_log off; }
+
+    error_page 404 /index.php;
+
+    # Deny .htaccess file access
+    location ~ /\.ht {
+        deny all;
+    }
+}
