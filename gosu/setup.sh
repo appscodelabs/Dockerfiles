@@ -9,6 +9,6 @@ source "$LIB_ROOT/hack/libbuild/common/lib.sh"
 source "$LIB_ROOT/hack/libbuild/common/public_image.sh"
 
 IMG=${PWD##*/}
-TAG=8.6
+TAG=8.7
 
 binary_repo $@

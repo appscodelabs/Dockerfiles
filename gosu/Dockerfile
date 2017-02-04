@@ -1,4 +1,4 @@
-FROM appscode/base:8.6
+FROM appscode/base:8.7
 
 # Installs runit and https://github.com/tianon/gosu
 # ref: https://github.com/docker-library/postgres/blob/master/9.5/Dockerfile

@@ -1,4 +1,4 @@
-FROM appscode/base:8.6
+FROM appscode/base:8.7
 
 ENV GCSFUSE_REPO gcsfuse-jessie
 
