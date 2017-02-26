@@ -10,7 +10,7 @@ ENV DEBCONF_NONINTERACTIVE_SEEN true
 
 RUN set -x \
   && apt-get update \
-  && apt-get install -y --no-install-recommends ca-certificates runit socklog locales \
+  && apt-get install -y --no-install-recommends apt-transport-https ca-certificates runit socklog locales \
   && apt-get purge -y --auto-remove ca-certificates \
   && rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man /tmp/* \
   && rm -rf /etc/sv /etc/service \
