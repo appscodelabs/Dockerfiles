@@ -20,4 +20,6 @@ RUN set -x \
 COPY sv /etc/sv/
 COPY runit.sh /runit.sh
 
-ENV LANG en_US.utf8
+ENV TZ     :/etc/localtime
+ENV LANG   en_US.utf8
+ENV LC_ALL en_US.UTF-8
