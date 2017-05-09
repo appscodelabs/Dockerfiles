@@ -1,4 +1,4 @@
-FROM appscode/base:8.7
+FROM appscode/base:8.8
 
 RUN set -x \
   && apt-get update \

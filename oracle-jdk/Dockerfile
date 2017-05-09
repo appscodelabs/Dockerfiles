@@ -1,4 +1,4 @@
-FROM appscode/base:8.7
+FROM appscode/base:8.8
 
 # Install Java 8 JDK
 RUN set -x \

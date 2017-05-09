@@ -1,4 +1,4 @@
-FROM appscode/base:8.7
+FROM appscode/base:8.8
 
 # TODO: review this dependency list
 RUN set -x \
