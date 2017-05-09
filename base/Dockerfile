@@ -1,4 +1,4 @@
-FROM debian:8.7
+FROM debian:8.8
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV DEBCONF_NONINTERACTIVE_SEEN true

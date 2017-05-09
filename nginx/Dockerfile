@@ -1,4 +1,4 @@
-FROM appscode/base:8.7
+FROM appscode/base:8.8
 
 ENV NGINX_VERSION 1.10.3-1~jessie
 
