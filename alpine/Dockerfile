@@ -7,7 +7,7 @@ FROM alpine:3.6
 
 RUN set -x \
   && apk update \
-  && apk add --update --no-cache ca-certificates openssl su-exec runit socklog tzdata \
+  && apk add --update --no-cache ca-certificates su-exec runit socklog tzdata \
   && rm -rf /etc/sv /etc/service \
   && echo 'Etc/UTC' > /etc/timezone
 
