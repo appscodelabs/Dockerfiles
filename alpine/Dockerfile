@@ -1,4 +1,4 @@
-FROM alpine:3.5
+FROM alpine
 
 # ref: https://github.com/docker-library/postgres/blob/master/9.5/Dockerfile
 # Installs runit and socklog
@@ -7,8 +7,7 @@ FROM alpine:3.5
 
 RUN set -x \
   && apk update \
-  && apk add ca-certificates su-exec runit socklog tzdata \
-  && rm -rf /var/cache/apk/* \
+  && apk add --update --no-cache ca-certificates openssl su-exec runit socklog tzdata \
   && rm -rf /etc/sv /etc/service \
   && echo 'Etc/UTC' > /etc/timezone
 
