@@ -5,6 +5,7 @@ from __future__ import absolute_import
 
 import datetime
 import fnmatch
+import glob
 import io
 import json
 import os
@@ -37,6 +38,7 @@ def _goenv():
 
 
 GOENV = _goenv()
+GOPATH = GOENV["GOPATH"]
 GOHOSTOS = GOENV["GOHOSTOS"]
 GOHOSTARCH = GOENV["GOHOSTARCH"]
 GOC = 'go'
@@ -59,7 +61,7 @@ def metadata(cwd, goos='', goarch=''):
     if md['git_tag']:
         md['version'] = md['git_tag']
         md['version_strategy'] = 'tag'
-    elif not md['git_branch'] in ['master', 'HEAD']:
+    elif not md['git_branch'] in ['master', 'HEAD'] and not md['git_branch'].startswith('release-'):
         md['version'] = md['git_branch']
         md['version_strategy'] = 'branch'
     else:
@@ -128,6 +130,17 @@ def check_output(cmd, stdin=None, cwd=None):
     return subprocess.check_output([expandvars(cmd)], shell=True, stdin=stdin, cwd=cwd)
 
 
+def deps():
+    die(call('go get -u golang.org/x/tools/cmd/goimports'))
+    die(call('go get -u golang.org/x/tools/cmd/stringer'))
+    die(call('go get -u github.com/Masterminds/glide'))
+    die(call('go get -u github.com/sgotti/glide-vc'))
+    die(call('go get -u github.com/jteeuwen/go-bindata/...'))
+    die(call('go get -u github.com/progrium/go-extpoints'))
+    die(call('go get -u github.com/tools/godep'))
+    die(call('go get -u github.com/uber/go-torch'))
+
+
 def to_upper_camel(lower_snake):
     components = lower_snake.split('_')
     # We capitalize the first letter of each component
@@ -139,7 +152,13 @@ def to_upper_camel(lower_snake):
 def go_build(name, goos, goarch, main):
     linker_opts = []
     if BIN_MATRIX[name].get('go_version', False):
-        for k, v in metadata(REPO_ROOT, goos, goarch).items():
+        md = metadata(REPO_ROOT, goos, goarch)
+        if md['version_strategy'] == 'tag':
+            del md['build_timestamp']
+            del md['build_host']
+            del md['build_host_os']
+            del md['build_host_arch']
+        for k, v in md.items():
             linker_opts.append('-X')
             linker_opts.append('main.' + to_upper_camel(k) + '=' + v)
 
@@ -185,12 +204,11 @@ def upload_to_cloud(folder, f, version):
     if not isinstance(buckets, dict):
         buckets = {buckets: ''}
     for bucket, region in buckets.items():
-        dst = "{bucket}/binaries/{name}/{version}/{file}{ext}".format(
+        dst = "{bucket}/binaries/{name}/{version}/{file}".format(
             bucket=bucket,
             name=name,
             version=version,
-            file=f,
-            ext='.exe' if '-windows-' in f else ''
+            file=f
         )
         if bucket.startswith('gs://'):
             upload_to_gcs(folder, f, dst, BIN_MATRIX[name].get('release', False))
@@ -226,8 +244,10 @@ def update_registry(version):
     lf = dist + '/latest.txt'
     write_file(lf, version)
     for name in os.listdir(dist):
+        if os.path.isfile(dist + '/' + name):
+            continue
         if name not in BIN_MATRIX:
-            return
+            continue
         call("gsutil cp {2} {0}/binaries/{1}/latest.txt".format(bucket, name, lf), cwd=REPO_ROOT)
         if BIN_MATRIX[name].get('release', False):
             call('gsutil acl ch -u AllUsers:R -r {0}/binaries/{1}/latest.txt'.format(bucket, name), cwd=REPO_ROOT)
@@ -243,6 +263,10 @@ def ungroup_go_imports(*paths):
             for dir, _, files in os.walk(p):
                 for f in fnmatch.filter(files, '*.go'):
                     _ungroup_go_imports(dir + '/' + f)
+        else:
+            for f in glob.glob(p):
+                print('Ungrouping imports of file: ' + f)
+                _ungroup_go_imports(f)
 
 
 BEGIN_IMPORT_REGEX = ur'import \(\s*'
