@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 export > /etc/envvars
 
 echo "Starting runit..."

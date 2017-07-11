@@ -1,4 +1,4 @@
-FROM alpine
+FROM alpine:3.6
 
 # ref: https://github.com/docker-library/postgres/blob/master/9.5/Dockerfile
 # Installs runit and socklog
