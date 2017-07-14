@@ -1,4 +1,4 @@
-FROM appscode/php:7
+FROM appscode/php:7.1
 
 ENV NGINX_VERSION 1.10.3-1~jessie
 
@@ -14,7 +14,7 @@ RUN set -x \
 # http://nginx.org/en/docs/syslog.html
 
 # for php-fpm logs to syslog
-RUN sed -i 's/\/var\/log\/php7.0-fpm.log/syslog/' /etc/php/7.0/fpm/php-fpm.conf
+RUN sed -i 's/\/var\/log\/php7.1-fpm.log/syslog/' /etc/php/7.1/fpm/php-fpm.conf
 
 # Setup runit scripts
 COPY sv /etc/sv/
