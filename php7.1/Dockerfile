@@ -10,12 +10,14 @@ RUN set -x \
   && apt-get update \
   && apt-get install -y --no-install-recommends \
     php7.1 \
+    php-pear \
     php7.1-apcu \
     php7.1-cli \
     php7.1-curl \
     php7.1-fpm \
     php7.1-gd \
-    php7.1-gmp libgmp-dev \
+    php7.1-gmp \
+    libgmp-dev \
     php7.1-imagick \
     php7.1-intl \
     php7.1-json \
@@ -23,7 +25,10 @@ RUN set -x \
     php7.1-mcrypt \
     php7.1-pgsql \
     php7.1-mbstring \
-  && apt-get purge -y --auto-remove ca-certificates wget \
+  && apt-get purge -y --auto-remove wget \
   && sed -i 's/;date.timezone =/date.timezone ="UTC"/' /etc/php/7.1/fpm/php.ini \
   && sed -i 's/;date.timezone =/date.timezone ="UTC"/' /etc/php/7.1/cli/php.ini \
   && rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man /tmp/*
+
+RUN mkdir /var/run/php
+RUN service php7.1-fpm restart
