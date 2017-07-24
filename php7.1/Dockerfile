@@ -4,9 +4,8 @@ RUN set -x \
   && apt-get update \
   && apt-get -y --no-install-recommends install ca-certificates wget apt-transport-https lsb-release
 
-RUN sed -i "s/^exit 101$/exit 0/" /usr/sbin/policy-rc.d
-
 RUN set -x \
+  && sed -i "s/^exit 101$/exit 0/" /usr/sbin/policy-rc.d \
   && wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg \
   && echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list \
   && apt-get update \
@@ -31,3 +30,4 @@ RUN set -x \
   && sed -i 's/;date.timezone =/date.timezone ="UTC"/' /etc/php/7.1/fpm/php.ini \
   && sed -i 's/;date.timezone =/date.timezone ="UTC"/' /etc/php/7.1/cli/php.ini \
   && rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man /tmp/*
+  
