@@ -30,5 +30,4 @@ RUN set -x \
   && sed -i 's/;date.timezone =/date.timezone ="UTC"/' /etc/php/7.1/cli/php.ini \
   && rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man /tmp/*
 
-RUN mkdir /var/run/php
-RUN service php7.1-fpm restart
+RUN mkdir -p /var/run/php
