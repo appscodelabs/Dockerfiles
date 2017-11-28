@@ -9,6 +9,6 @@ source "$LIB_ROOT/hack/libbuild/common/lib.sh"
 source "$LIB_ROOT/hack/libbuild/common/public_image.sh"
 
 IMG=kubectl
-TAG=1.8.2
+TAG=1.8.4
 
 binary_repo $@
