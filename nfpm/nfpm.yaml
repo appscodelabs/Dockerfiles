@@ -4,7 +4,7 @@ platform: "linux"
 version: "1.0.0"
 section: "default"
 priority: "extra"
-maintainer: "Tamal Saha <tamal@appscode.com>"
+maintainer: "AppsCode Inc. <hello@appscode.com>"
 description: |
   Secure HAProxy Ingress Controller for Kubernetes
 vendor: "AppsCode Inc."
