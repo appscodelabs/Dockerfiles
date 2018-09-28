@@ -9,7 +9,7 @@ do
 	wget https://dl.k8s.io/$latest/kubernetes-client-linux-amd64.tar.gz \
 	  && tar -xzvf kubernetes-client-linux-amd64.tar.gz
 
-	docker build -t appscode/kubectl:$latest .
+	docker build --pull -t appscode/kubectl:$latest .
 	docker push appscode/kubectl:$latest
 
 	docker tag appscode/kubectl:$latest appscode/kubectl:v$ver
