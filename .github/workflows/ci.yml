@@ -16,6 +16,13 @@ jobs:
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
 
+    - name: Prepare Host
+      env:
+        DOCKER_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+        USERNAME: 1gtm
+      run: |
+        docker login --username ${USERNAME} --password ${DOCKER_TOKEN}
+
     - name: kubectl
       run: |
         cd kubectl
