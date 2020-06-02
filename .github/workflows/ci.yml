@@ -18,4 +18,6 @@ jobs:
 
     - name: kubectl
       run: |
-        ./kubectl/build.sh
+        cd kubectl
+        ./build.sh
+        cd ..
