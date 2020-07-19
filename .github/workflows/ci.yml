@@ -23,8 +23,8 @@ jobs:
       run: |
         docker login --username ${USERNAME} --password ${DOCKER_TOKEN}
 
-    - name: kubectl
-      run: |
-        cd kubectl
-        ./build.sh
-        cd ..
+    # - name: kubectl
+    #   run: |
+    #     cd kubectl
+    #     ./build.sh
+    #     cd ..
